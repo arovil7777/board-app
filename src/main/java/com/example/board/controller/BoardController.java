@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.board.model.Board;
 import com.example.board.service.BoardService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/board")
 public class BoardController {
@@ -26,10 +29,11 @@ public class BoardController {
      * 게시글 목록 조회
      * 
      * @param model
-     * @return list.html
+     * @return list.jsp
      */
     @GetMapping("/list")
     public String list(Model model) {
+        log.info("게시글 목록 조회");
         model.addAttribute("boards", boardService.getAllBoards());
         return "board/list";
     }
@@ -39,7 +43,7 @@ public class BoardController {
      * 
      * @param id
      * @param model
-     * @return detail.html
+     * @return detail.jsp
      */
     @GetMapping("/detail/{id}")
     public String detail(@PathVariable Long id, Model model) {
@@ -52,7 +56,7 @@ public class BoardController {
      * 게시글 작성 폼 페이지
      * 
      * @param model
-     * @return form.html
+     * @return form.jsp
      */
     @GetMapping("/form")
     public String form(Model model) {
