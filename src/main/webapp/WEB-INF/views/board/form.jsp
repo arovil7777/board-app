@@ -1,21 +1,35 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-    <html>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+        <!DOCTYPE html>
+        <html lang="ko">
 
-    <head>
-        <title>게시글 작성</title>
-    </head>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>게시글 작성</title>
+            <link rel="stylesheet" href="{pageContext.request.contextPath}/css/styles.css">
+        </head>
 
-    <body>
-        <h2>게시글 작성</h2>
-        <form action="save" method="post">
-            <input type="hidden" name="id" value="${board.id}">
-            제목: <input type="text" name="title" value="${board.title}"><br>
-            작성자: <input type="text" name="writer" value="${board.writer}"><br>
-            내용: <textarea name="content">${board.content}</textarea><br>
-            <button type="submit">저장</button>
-        </form>
+        <body>
+            <%@ include file="../layout/header.jsp" %>
+                <main>
+                    <h2>${board.id == null ? "게시글 작성" : "게시글 수정"}</h2>
+                    <form action="${pageContext.request.contextPath}/board/save" method="post">
+                        <input type="hidden" name="id" value="${board.id}">
+                        <label for="title">제목</label>
+                        <input type="text" name="title" id="title" value="${board.title}" required><br>
 
-        <a href="/board/list">취소</a>
-    </body>
+                        <label for="writer">작성자</label>
+                        <input type="text" name="writer" id="writer" value="${board.writer}" required><br>
 
-    </html>
+                        <label for="content">내용</label>
+                        <textarea name="content" id="content" row="5" required>${board.content}</textarea><br>
+
+                        <button type="submit">${board.id == null ? "등록" : "수정"}</button>
+                        <a href="${pageContext.request.contextPath}/board/list" class="btn btn-back">취소</a>
+                    </form>
+                </main>
+                <%@ include file="../layout/footer.jsp" %>
+        </body>
+
+        </html>
