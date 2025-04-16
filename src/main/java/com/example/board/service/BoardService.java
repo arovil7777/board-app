@@ -1,16 +1,37 @@
 package com.example.board.service;
 
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
 import com.example.board.model.Board;
+import com.example.board.repository.BoardRepository;
 
-public interface BoardService {
-    List<Board> getAllBoards();
+@Service
+public class BoardService {
+    @Autowired
+    private BoardRepository boardRepository;
 
-    Optional<Board> getBoardById(Long id);
+    public Page<Board> getAllBoards(Pageable pageable) {
+        return boardRepository.findAll(pageable);
+    }
 
-    void saveBoard(Board board);
+    public Page<Board> searchBoards(String keyword, Pageable pageable) {
+        return boardRepository.findByTitleContainingOrContentContaining(keyword, keyword, pageable);
+    }
 
-    void deleteBoard(Long id);
+    public Board saveBoard(Board board) {
+        return boardRepository.save(board);
+    }
+
+    public Optional<Board> getBoardById(Long id) {
+        return boardRepository.findById(id);
+    }
+
+    public void deleteBoard(Long id) {
+        boardRepository.deleteById(id);
+    }
 }

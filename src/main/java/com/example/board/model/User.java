@@ -1,34 +1,33 @@
 package com.example.board.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "boards")
+@Table(name = "users")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Board {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
+    @Column(unique = true)
+    private String username;
 
-    @Lob
-    private String content;
+    private String password;
 
-    // 게시글 작성자
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(unique = true)
+    private String email;
+
+    // 이메일 인증 후 활성화 여부
+    private boolean enabled;
 }

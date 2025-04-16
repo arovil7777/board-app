@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/board
+    username: 
+    password: 
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update # 테이블 자동 업데이트
+    properties:
+      hibernate:
+        "[format_sql]": true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true # SQL 쿼리 출력
+
+  thymeleaf:
+    cache: false # 개발 중에는 false
+
+  security:
+    user:
+      name: admin
+      password: admin
+
+  # 메일 전송 설정 (이메일 인증 기능 구현 시 사용)
+  mail:
+    host: 
+    port: 
+    username: 
+    password: 
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+
+server:
+  port: 8080

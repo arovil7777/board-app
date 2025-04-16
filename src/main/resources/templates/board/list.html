@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>게시판 목록</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/custom.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2>게시글 목록</h2>
+        <div class="mb-3">
+            <form th:action="@{/boards}" method="get">
+                <div class="input-group">
+                    <input type="text" name="keyword" th:value="${keyword}" placeholder="검색어 입력" class="form-control">
+                    <button class="btn btn-outline-secondary" type="submit">검색</button>
+                </div>
+            </form>
+        </div>
+        <a th:href="@{/boards/write}" class="btn btn-success mb-3">새 게시글 작성</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>동작</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="board : ${boards}">
+                    <td th:text="${board.id}"></td>
+                    <td><a th:href="@{'/boards/' + ${board.id}}" th:text="${board.title}"></a></td>
+                    <td th:text="${board.user.username}"></td>
+                    <td>
+                        <a th:href="@{'/boards/edit/' + ${board.id}}" class="btn btn-primary btn-sm">수정</a>
+                        <a th:href="@{'/boards/delete/' + ${board.id}}" class="btn btn-danger btn-sm"
+                            onclick="return confirm('삭제하시겠습니까?');">삭제</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 페이징 네비게이션 -->
+        <nav>
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                    <a class="page-link" th:href="@{/boards(page=${currentPage - 1}, keyword=${keyword})}">이전</a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                    th:classappend="${i == currentPage} ? 'active'">
+                    <a class="page-link" th:href="@{/boards(page=${i}, keyword=${keyword})}" th:text="${i + 1}"></a>
+                </li>
+                <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{/boards(page=${currentPage + 1}, keyword=${keyword})}">다음</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/custom.js"></script>
+</body>
+
+</html>
